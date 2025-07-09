@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Progress Tracker + Milestones</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-purple-500 via-pink-600 to-red-500 text-gray-100 min-h-screen p-6 font-sans">
+
+  <div class="max-w-3xl mx-auto space-y-6">
+
+    <h1 class="text-5xl font-extrabold text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-200 to-green-300 tracking-wide py-4 animate-pulse">🎯 Progress Tracker</h1>
+
+    <!-- Goal Setting -->
+    <div class="bg-gray-800/90 p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-blue-500 transition-all duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">Set Your Goals</h2>
+      <label for="stepsGoalInput" class="block mb-2 text-sm font-medium text-gray-300">Steps Goal:</label>
+      <input type="number" id="stepsGoalInput" placeholder="Enter steps goal"
+             class="w-full p-3 rounded-lg bg-gray-900/80 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 transition duration-200">
+      
+      <label for="workoutsGoalInput" class="block mt-4 mb-2 text-sm font-medium text-gray-300">Workouts Goal:</label>
+      <input type="number" id="workoutsGoalInput" placeholder="Enter workouts goal"
+             class="w-full p-3 rounded-lg bg-gray-900/80 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 transition duration-200">
+      
+      <button onclick="setGoals()"
+              class="mt-4 px-5 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-medium rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">Set Goals</button>
+    </div>
+
+    <!-- Update Progress -->
+    <div class="bg-gray-800/90 p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-green-500 transition-all duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-300">Update Your Progress</h2>
+      
+      <label for="stepsInput" class="block mb-2 text-sm font-medium text-gray-300">Steps Taken:</label>
+      <input type="number" id="stepsInput" placeholder="Enter steps taken"
+             class="w-full p-3 rounded-lg bg-gray-900/80 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500 transition duration-200">
+
+      <label for="exercisesInput" class="block mt-4 mb-2 text-sm font-medium text-gray-300">Workouts Completed:</label>
+      <input type="number" id="exercisesInput" placeholder="Enter workouts completed"
+             class="w-full p-3 rounded-lg bg-gray-900/80 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent placeholder-gray-500 transition duration-200">
+      
+      <button onclick="updateProgress()"
+              class="mt-4 px-5 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-medium rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105">Update Progress</button>
+    </div>
+
+    <!-- Progress Summary -->
+    <div class="bg-gray-800/90 p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-purple-500 transition-all duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-fuchsia-300">Progress Summary</h2>
+      <ul class="space-y-3 text-lg">
+        <li class="flex items-center">🔥 <span class="ml-2">Calories Burned:</span> <span id="caloriesBurned" class="ml-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-400">0.00</span> <span class="ml-1">kcal</span></li>
+        <li class="flex items-center">👣 <span class="ml-2">Steps Taken:</span> <span id="stepsTaken" class="ml-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-400">0</span></li>
+        <li class="flex items-center">💪 <span class="ml-2">Workouts Completed:</span> <span id="workoutsCompleted" class="ml-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">0</span></li>
+        <li class="flex items-center">🏅 <span class="ml-2">Points Earned:</span> <span id="pointsEarned" class="ml-auto font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-400">0</span></li>
+      </ul>
+      <p id="achievementStatus" class="mt-4 text-lg font-medium text-center py-2 rounded-lg bg-gray-900/50 border border-gray-700 transition-all duration-300">Keep going! You're almost there!</p>
+    </div>
+
+    <!-- Milestones -->
+    <div class="bg-gray-800/90 p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-pink-500 transition-all duration-300">
+      <h2 class="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-rose-300">Milestones</h2>
+      <p id="milestoneMessage" class="text-xl font-bold text-center text-white mb-3"></p>
+      <div id="milestoneSymbol" class="text-6xl mt-2 text-center animate-bounce"></div>
+    </div>
+
+    <!-- Share -->
+    <div class="bg-gray-800/90 p-6 rounded-xl shadow-2xl border border-gray-700 hover:border-indigo-500 transition-all duration-300">
+      <h3 class="text-xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-300">Share Your Achievement</h3>
+      <p id="shareText" class="mb-4 p-3 bg-gray-900/50 rounded-lg text-gray-200 border border-gray-700">
+        I just unlocked a new fitness milestone in my workout tracker! 💪 #FitnessGoals #MilestoneAchieved
+      </p>
+      <!-- Share buttons remain unchanged -->
+      <!-- ... (social media buttons) ... -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-10 text-center text-sm text-white border-t border-white/10 pt-6">
+    © 2025 LevelUp Fit. Built by Shivam Yadav.
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    let stepsGoal = 0;
+    let workoutsGoal = 0;
+    let points = 0;
+
+    function setGoals() {
+      stepsGoal = parseInt(document.getElementById("stepsGoalInput").value) || 0;
+      workoutsGoal = parseInt(document.getElementById("workoutsGoalInput").value) || 0;
+      alert("Goals set successfully!");
+    }
+
+    function updateProgress() {
+      const stepsTaken = parseInt(document.getElementById("stepsInput").value) || 0;
+      const workoutsCompleted = parseInt(document.getElementById("exercisesInput").value) || 0;
+      const caloriesBurned = (stepsTaken * 0.04) + (workoutsCompleted * 50);
+
+      document.getElementById("caloriesBurned").textContent = caloriesBurned.toFixed(2);
+      document.getElementById("stepsTaken").textContent = stepsTaken;
+      document.getElementById("workoutsCompleted").textContent = workoutsCompleted;
+
+      const achievementStatus = document.getElementById("achievementStatus");
+
+      if (stepsTaken >= stepsGoal && workoutsCompleted >= workoutsGoal) {
+        achievementStatus.textContent = "🎉 Congratulations! You've achieved your goals!";
+        achievementStatus.classList.remove("text-blue-400");
+        achievementStatus.classList.add("text-green-400", "border-green-500", "bg-green-900/20");
+
+        points += 100;
+        document.getElementById("pointsEarned").textContent = points;
+      } else {
+        achievementStatus.textContent = "Keep going! You're almost there!";
+        achievementStatus.classList.remove("text-green-400", "border-green-500", "bg-green-900/20");
+        achievementStatus.classList.add("text-blue-400");
+      }
+
+      updateMilestone(points);
+    }
+
+    function updateMilestone(points) {
+      const milestoneMessage = document.getElementById('milestoneMessage');
+      const milestoneSymbol = document.getElementById('milestoneSymbol');
+      let milestoneText = '';
+
+      if (points >= 6000) milestoneText = 'Heroic 🏆';
+      else if (points >= 4500) milestoneText = 'Diamond 💎';
+      else if (points >= 3500) milestoneText = 'Platinum 🔹';
+      else if (points >= 2500) milestoneText = 'Gold 🥇';
+      else if (points >= 1500) milestoneText = 'Silver 🥈';
+      else if (points >= 500) milestoneText = 'Bronze 🥉';
+
+      if (milestoneText) {
+        milestoneMessage.textContent = `You have reached ${milestoneText.split(' ')[0]}!`;
+        milestoneSymbol.textContent = milestoneText.split(' ')[1];
+        generateShareMessage(milestoneText.split(' ')[0]);
+      } else {
+        milestoneMessage.textContent = 'Keep going to reach your first milestone!';
+        milestoneSymbol.textContent = '';
+        generateShareMessage('a new');
+      }
+    }
+
+    function generateShareMessage(milestone) {
+      const message = `I just unlocked the ${milestone} milestone in my workout tracker! 💪 #FitnessGoals #MilestoneAchieved`;
+      const encodedMessage = encodeURIComponent(message);
+      const currentUrl = encodeURIComponent(window.location.href);
+
+      document.getElementById("shareText").textContent = message;
+
+      // Add URLs if buttons exist
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById("shareText").textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard! You can now paste it on Instagram 📸");
+      });
+    }
+
+    window.onload = () => {
+      generateShareMessage('a new');
+    };
+  </script>
+</body>
+</html>

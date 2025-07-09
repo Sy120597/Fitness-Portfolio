@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fitness & Wellness Gamification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .slide {
+      transition: opacity 1s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 font-sans">
+
+  <!-- Navigation Bar -->
+  <header class="absolute top-0 w-full flex items-center justify-between px-10 py-6 z-50">
+    <div class="text-xl font-bold text-yellow-300">LevelUp Fit</div>
+    <nav class="space-x-6 text-white font-medium">
+      <a href="index.html" class="hover:text-teal-300">HOME</a>
+      <a href="blogs.html" class="hover:text-teal-300">BLOGS</a>
+      <a href="about.html" class="hover:text-teal-300">ABOUT US</a>
+      <a href="contact.html" class="hover:text-teal-300">CONTACT US</a>
+    </nav>
+    <div class="bg-indigo-600 text-white p-4 rounded hover:bg-indigo-400">
+      <a href="login.html" class="hover:text-yellow-300">Login</a>
+    </div>
+  </header>
+
+  <!-- Slideshow Wrapper -->
+  <section class="relative h-screen overflow-hidden">
+    <!-- Slide Images -->
+    <div class="absolute inset-0 slide bg-cover bg-center bg-no-repeat z-0" style="background-image: url('https://images.unsplash.com/photo-1558611848-73f7eb4001a1?auto=format&fit=crop&w=1470&q=80'); opacity: 1;"></div>
+    <div class="absolute inset-0 slide bg-cover bg-center bg-no-repeat z-0" style="background-image: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?auto=format&fit=crop&w=1470&q=80'); opacity: 0;"></div>
+
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-70 z-10"></div>
+
+    <!-- Hero Content -->
+    <div class="relative z-20 flex items-center justify-start h-full pl-12">
+      <div class="text-white max-w-xl">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">FITNESS AND HEALTH</h1>
+        <h2 class="text-xl font-medium mb-6">With Double Power</h2>
+        <a href="#" class="inline-block px-5 py-2 border border-yellow-400 text-white hover:bg-yellow-500 transition duration-300">Read More</a>
+
+        <!-- Underline indicators -->
+        <div class="flex items-center space-x-2 mt-8">
+          <div class="w-6 h-1 bg-yellow-400 indicator"></div>
+          <div class="w-6 h-1 bg-gray-500 indicator"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slideshow Script -->
+  <script>
+    $(document).ready(function() {
+      let slides = $(".slide");
+      let indicators = $(".indicator");
+      let current = 0;
+
+      function showNextSlide() {
+        // Hide current slide
+        slides.eq(current).css("opacity", "0");
+        // Reset current indicator
+        indicators.eq(current).removeClass("bg-yellow-400").addClass("bg-gray-500");
+
+        // Move to the next slide
+        current = (current + 1) % slides.length;
+
+        // Show next slide
+        slides.eq(current).css("opacity", "1");
+        // Highlight the current indicator
+        indicators.eq(current).removeClass("bg-gray-500").addClass("bg-yellow-400");
+      }
+
+      setInterval(showNextSlide, 2000); // 2 seconds per slide
+    });
+  </script>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <p class="text-sm">&copy; 2025 LevelUp Fit. All rights reserved.</p>
+      <div class="flex space-x-4">
+        <a href="https://www.instagram.com" target="_blank" class="hover:opacity-75">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="w-8 h-8">
+        </a>
+        <a href="https://www.facebook.com" target="_blank" class="hover:opacity-75">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook" class="w-8 h-8">
+        </a>
+        <a href="https://www.linkedin.com" target="_blank" class="hover:opacity-75">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="LinkedIn" class="w-8 h-8">
+        </a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

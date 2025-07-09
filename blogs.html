@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LevelUp Fit Blog & Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-500 via-pink-600 to-red-500 text-white min-h-screen flex flex-col p-6">
+
+  <main class="flex-grow max-w-3xl w-full mx-auto">
+    <h1 class="text-4xl font-extrabold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-orange-200 to-green-300">
+      LevelUp Fit Blog & Progress Tracker
+    </h1>
+
+    <!-- Fitness Blog Section -->
+    <h2 class="text-2xl font-semibold mb-6 text-center text-white">Write Your Fitness Journey</h2>
+    <div class="bg-white text-gray-800 p-6 rounded-xl shadow-lg mb-8">
+      <textarea id="blogPost" rows="6" class="w-full p-4 rounded-lg bg-gray-100 text-gray-800 border border-gray-300 focus:ring-2 focus:ring-purple-400 focus:outline-none" placeholder="Share your fitness experience..."></textarea>
+      <button onclick="submitBlogPost()" class="mt-4 w-full px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-500 text-white font-semibold rounded-lg shadow-md hover:from-pink-600 hover:to-purple-600 transition-all">
+        Submit Blog Post
+      </button>
+    </div>
+
+    <!-- Displaying Blog Posts -->
+    <div id="blogSection" class="bg-white text-gray-800 p-6 rounded-xl shadow-lg">
+      <h3 class="text-2xl font-semibold mb-6 text-center text-blue-600">Fitness Blog Entries</h3>
+      <div id="postsContainer" class="space-y-6">
+        <!-- Posts will be displayed here -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-white mt-10 border-t border-white/20 pt-4">
+    © 2025 LevelUp Fit. Built by Shivam Yadav.
+  </footer>
+
+  <script>
+    // Array to store blog posts
+    let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+
+    // Function to submit a new blog post
+    function submitBlogPost() {
+      const blogPostContent = document.getElementById('blogPost').value;
+
+      if (blogPostContent.trim() === "") {
+        alert("Please write something before submitting.");
+        return;
+      }
+
+      const newPost = {
+        id: Date.now(),
+        content: blogPostContent,
+        date: new Date().toLocaleString()
+      };
+
+      // Add new post to the array
+      blogPosts.push(newPost);
+
+      // Save blog posts to localStorage
+      localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+
+      // Clear textarea after submission
+      document.getElementById('blogPost').value = '';
+
+      // Refresh blog post display
+      displayBlogPosts();
+    }
+
+    // Function to delete a blog post
+    function deleteBlogPost(postId) {
+      blogPosts = blogPosts.filter(post => post.id !== postId);
+      localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+      displayBlogPosts();
+    }
+
+    // Function to display blog posts
+    function displayBlogPosts() {
+      const postsContainer = document.getElementById('postsContainer');
+      postsContainer.innerHTML = '';
+
+      blogPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('bg-gray-100', 'p-6', 'rounded-lg', 'shadow-md', 'hover:shadow-lg', 'transition-shadow');
+
+        const postDate = document.createElement('p');
+        postDate.classList.add('text-sm', 'text-gray-500', 'italic');
+        postDate.textContent = `Posted on: ${post.date}`;
+
+        const postContent = document.createElement('p');
+        postContent.classList.add('mt-4', 'text-lg', 'text-gray-800');
+        postContent.textContent = post.content;
+
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('mt-4', 'px-4', 'py-2', 'bg-red-500', 'text-white', 'font-semibold', 'rounded-lg', 'hover:bg-red-600', 'transition-all');
+        deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => deleteBlogPost(post.id);
+
+        postElement.appendChild(postDate);
+        postElement.appendChild(postContent);
+        postElement.appendChild(deleteButton);
+
+        postsContainer.appendChild(postElement);
+      });
+    }
+
+    // Initialize blog posts display on page load
+    displayBlogPosts();
+  </script>
+
+</body>
+</html>

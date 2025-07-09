@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | LevelUp Fit</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    .hidden-section { display: none; }
+    .active-tab { color: #facc15; } /* yellow-400 */
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-r from-purple-500 via-pink-600 to-red-500 text-white font-sans">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-6 bg-white bg-opacity-10 backdrop-blur rounded-b-xl shadow-md">
+    <h1 class="text-2xl font-bold text-white">
+      <i class="fas fa-dumbbell mr-2"></i>LevelUp <span class="text-yellow-300">Fit</span>
+    </h1>
+    <nav class="space-x-4">
+      <button onclick="showSection('dashboard')" id="tab-dashboard" class="hover:text-yellow-300">Dashboard</button>
+      <button onclick="showSection('challenges')" id="tab-challenges" class="hover:text-yellow-300">Challenges</button>
+      <button onclick="showSection('progress')" id="tab-progress" class="hover:text-yellow-300">Progress</button>
+      <button onclick="showSection('settings')" id="tab-settings" class="hover:text-yellow-300">Settings</button>
+    </nav>
+  </header>
+
+  <!-- Main -->
+  <main class="container mx-auto p-6">
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="section">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Progress -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+          <h2 class="text-xl font-semibold mb-2">Your Progress</h2>
+          <p>Level 5 – Warrior</p>
+          <div class="w-full bg-gray-200 rounded-full h-4 mt-2">
+            <div class="bg-yellow-400 h-4 rounded-full w-3/4 animate-pulse"></div>
+          </div>
+          <p class="mt-2 text-sm">XP: 750 / 1000</p>
+        </div>
+
+        <!-- Streak -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+          <h2 class="text-xl font-semibold mb-2">Daily Streak 🔥</h2>
+          <p>You've worked out <strong>7 days in a row!</strong></p>
+          <div class="text-green-300 text-sm mt-2">Keep it up for bonus XP!</div>
+        </div>
+
+        <!-- Badges -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+          <h2 class="text-xl font-semibold mb-2">Your Badges 🏅</h2>
+          <ul class="list-disc list-inside text-sm space-y-1">
+            <li>Starter Badge</li>
+            <li>3-Day Streak</li>
+            <li>1,000 Calories Burned</li>
+          </ul>
+        </div>
+
+        <!-- Start Workout -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md md:col-span-2">
+          <h2 class="text-xl font-semibold mb-4">Current Challenge 🎯</h2>
+          <p>Complete 5 workouts this week to earn +300 XP</p>
+          <button id="startWorkoutBtn" onclick="startWorkout()" class="mt-4 px-4 py-2 bg-yellow-300 text-black font-semibold rounded hover:bg-yellow-400">
+            Start Today's Workout
+          </button>
+          <p id="workoutMessage" class="mt-4 text-green-300 font-medium hidden">Workout Started! 💪 Keep going!</p>
+        </div>
+
+        <!-- Motivation -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+          <h2 class="text-xl font-semibold mb-2">Today's Motivation 💡</h2>
+          <blockquote class="italic text-sm">"Every champion was once a contender that refused to give up." – Rocky Balboa</blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- Challenges -->
+    <section id="challenges" class="section hidden-section">
+      <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Weekly Fitness Challenges 💪</h2>
+        <ul class="space-y-2 text-sm">
+          <li>🏃 Run 5km — <span class="text-green-300">Completed</span></li>
+          <li>🧘 3 Yoga Sessions — <span class="text-yellow-300">In Progress</span></li>
+          <li>🚴 Cycle 20km — <span class="text-red-300">Not Started</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Progress -->
+    <section id="progress" class="section hidden-section">
+      <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Your Progress 📈</h2>
+        <p>Workouts this month: <strong>18</strong></p>
+        <p>Calories Burned: <strong>6,250</strong></p>
+        <p>Steps Taken: <strong>102,400</strong></p>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="settings" class="section hidden-section">
+      <div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-6 shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Settings ⚙️</h2>
+        <label class="block mb-2">
+          <span class="text-sm">Receive Daily Motivations</span>
+          <input type="checkbox" checked class="ml-2">
+        </label>
+        <label class="block mb-2">
+          <span class="text-sm">Enable Sound Effects</span>
+          <input type="checkbox" class="ml-2">
+        </label>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center mt-10 py-4 text-sm bg-white bg-opacity-5">
+    © 2025 LevelUp Fit. Built by Shivam Yadav.
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden-section'));
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active-tab'));
+      document.getElementById(sectionId).classList.remove('hidden-section');
+      document.getElementById('tab-' + sectionId).classList.add('active-tab');
+    }
+
+    // Show Dashboard on load
+    showSection('dashboard');
+
+    function startWorkout() {
+      const btn = document.getElementById('startWorkoutBtn');
+      const msg = document.getElementById('workoutMessage');
+      btn.disabled = true;
+      btn.classList.add('opacity-50', 'cursor-not-allowed');
+      msg.classList.remove('hidden');
+      msg.textContent = "Workout Started! 💪 Keep going!";
+      console.log("Workout started at:", new Date().toLocaleTimeString());
+    }
+  </script>
+</body>
+</html>
